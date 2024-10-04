@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_ligas">
+
+    <fragment
+        android:id="@+id/navigation_ligas"
+        android:name="com.example.iot_lab4_20212607.fragment.LigasFragment"
+        android:label="Ligas"
+        tools:layout="@layout/fragment_ligas" />
+
+    <!--
+
+    <fragment
+        android:id="@+id/navigation_posiciones"
+        android:name="com.example.telefutbol.PosicionesFragment"
+        android:label="Posiciones"
+        tools:layout="@layout/fragment_posiciones" />
+
+    <fragment
+        android:id="@+id/navigation_resultados"
+        android:name="com.example.telefutbol.ResultadosFragment"
+        android:label="Resultados"
+        tools:layout="@layout/fragment_resultados" />
+
+        -->
+</navigation>
