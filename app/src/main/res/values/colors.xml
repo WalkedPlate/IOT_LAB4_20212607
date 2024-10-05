@@ -2,4 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary colors -->
+    <color name="primary">#00796B</color>  <!-- Un color verde azulado -->
+    <color name="primary_dark">#004D40</color>  <!-- Versión más oscura del primary -->
+    <color name="accent">#D81B60</color>  <!-- Color de acento rosa fuerte -->
+
+    <!-- Text and background colors -->
+    <color name="gray">#BDBDBD</color>  <!-- Color gris para los bordes o el texto deshabilitado -->
+    <color name="background_light">#63D6E7</color>  <!-- Un azul muy claro para el fondo -->
+    <color name="background_dark">#174A73</color>  <!-- Color de fondo más oscuro -->
+
+    <!-- Search EditText specific colors -->
+    <color name="edittext_hint">#9E9E9E</color>  <!-- Color gris claro para el hint del EditText -->
+
 </resources>

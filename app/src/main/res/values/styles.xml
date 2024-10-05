@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:windowBackground">@color/background_light</item>
+    </style>
+
+    <!-- Style for Search EditText -->
+    <style name="SearchEditTextStyle">
+        <item name="android:padding">12dp</item>
+        <item name="android:hint">@color/edittext_hint</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/search_edittext_bg</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- General Button Style -->
+    <style name="ButtonStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:backgroundTint">@color/primary</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Text appearance for hints and regular text -->
+    <style name="HintTextStyle">
+        <item name="android:textColorHint">@color/edittext_hint</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

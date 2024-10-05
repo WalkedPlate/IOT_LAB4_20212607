@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/navigation_ligas"
-        android:title="Ligas" />
+        android:title="Ligas"
+        android:icon="@drawable/ic_category"
+        android:background="@drawable/button_background"
+        android:gravity="center"
+        app:showAsAction="always" />
 
     <!--
 
     <item
         android:id="@+id/navigation_posiciones"
-        android:title="Posiciones" />
+        android:title="Posiciones"
+        android:icon="@drawable/ic_posiciones"
+        android:showAsAction="ifRoom"
+        android:background="?android:attr/selectableItemBackground" />
 
     <item
         android:id="@+id/navigation_resultados"
-        android:title="Resultados" />
+        android:title="Resultados"
+        android:icon="@drawable/ic_resultados"
+        android:showAsAction="ifRoom"
+        android:background="?android:attr/selectableItemBackground" />
     -->
 
 

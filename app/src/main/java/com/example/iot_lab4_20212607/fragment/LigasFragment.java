@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.iot_lab4_20212607.adapter.LigasAdapter;
 import com.example.iot_lab4_20212607.databinding.FragmentLigasBinding;
 import com.example.iot_lab4_20212607.dto.ApiResponse;
+import com.example.iot_lab4_20212607.dto.LigasPorPais;
 import com.example.iot_lab4_20212607.model.Liga;
 import com.example.iot_lab4_20212607.service.ApiService;
 import com.example.iot_lab4_20212607.service.RetrofitClient;
@@ -37,31 +38,73 @@ public class LigasFragment extends Fragment {
         binding.recyclerViewLigas.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.recyclerViewLigas.setAdapter(ligasAdapter);
 
-        // Simulación de carga de datos desde la API (más adelante se cambia por la llamada real)
-        loadLigas();
+        // Acción del botón buscar
+        binding.searchButton.setOnClickListener(v -> {
+            String country = binding.searchEditText.getText().toString().trim();
+            if (country.isEmpty()) {
+                loadAllLigas();  // Cargar ligas generales si no se introduce país
+            } else {
+                buscarLigasPorPais(country);  // Cargar ligas por país
+            }
+        });
 
         return view;
     }
 
-    // Cargar las ligas
-    private void loadLigas() {
+    // Cargar todaslas ligas
+    private void loadAllLigas() {
         ApiService apiService = RetrofitClient.getApiService();
         apiService.getLigas().enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Liga> ligas = response.body().getLeagues();  // Obtenemos las ligas de la respuesta
-                    ligasAdapter.setLigasList(ligas);  // Actualizamos el RecyclerView con las ligas
+                    List<Liga> ligas = response.body().getLeagues();
+                    ligasAdapter.setLigasList(ligas);
+                } else {
+                    Toast.makeText(getContext(), "No se encontraron ligas", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Error al cargar las ligas", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    // Cargar ligas por país
+    private void buscarLigasPorPais(String pais) {
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<LigasPorPais> call = apiService.getLigasPorPais(pais);
+
+        call.enqueue(new Callback<LigasPorPais>() {
+            @Override
+            public void onResponse(Call<LigasPorPais> call, Response<LigasPorPais> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    LigasPorPais ligaPorPais = response.body();
+                    // Actualizar el RecyclerView con las ligas obtenidas
+                    actualizarRecyclerView(ligaPorPais.getLigas());
+                } else {
+                    Toast.makeText(getContext(), "No se encontraron ligas para este país", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LigasPorPais> call, Throwable t) {
+                // Maneja el error (puedes mostrar un Toast, por ejemplo)
+                Toast.makeText(getContext(), "Error al buscar ligas: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void actualizarRecyclerView(List<Liga> ligas) {
+        if (ligas != null && !ligas.isEmpty()) {
+            ligasAdapter.setLigasList(ligas); // Asegúrate de que tu adapter tenga un método setLigas(List<Liga> ligas)
+            ligasAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(getContext(), "No se encontraron ligas para este país", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 }

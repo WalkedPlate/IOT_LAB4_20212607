@@ -22,7 +22,6 @@ public class LigasAdapter extends RecyclerView.Adapter<LigasAdapter.LigasViewHol
     private List<Liga> ligasList = new ArrayList<>();
     private Context context;
 
-
     public LigasAdapter(Context context) {
         this.context = context;
     }
@@ -37,7 +36,9 @@ public class LigasAdapter extends RecyclerView.Adapter<LigasAdapter.LigasViewHol
     @Override
     public void onBindViewHolder(@NonNull LigasViewHolder holder, int position) {
         Liga liga = ligasList.get(position);
+        holder.ligaIdTextView.setText(liga.getIdLeague());
         holder.ligaNameTextView.setText(liga.getNombre());
+        holder.ligaAltNameTextView.setText(liga.getNombreAlternativo());
 
         // Manejo de clics en cada ítem, mostrando un Toast con el nombre de la liga
         holder.itemView.setOnClickListener(v -> {
@@ -52,16 +53,21 @@ public class LigasAdapter extends RecyclerView.Adapter<LigasAdapter.LigasViewHol
 
     @SuppressLint("NotifyDataSetChanged")
     public void setLigasList(List<Liga> ligasList) {
-        this.ligasList = ligasList;
-        notifyDataSetChanged();
+        this.ligasList.clear();  // Limpiar los datos anteriores antes de añadir los nuevos
+        this.ligasList.addAll(ligasList);
+        notifyDataSetChanged();  // Notificar cambios al RecyclerView
     }
 
     static class LigasViewHolder extends RecyclerView.ViewHolder {
+        TextView ligaIdTextView;
         TextView ligaNameTextView;
+        TextView ligaAltNameTextView;
 
         public LigasViewHolder(@NonNull View itemView) {
             super(itemView);
+            ligaIdTextView = itemView.findViewById(R.id.ligaIdTextView);
             ligaNameTextView = itemView.findViewById(R.id.ligaNameTextView);
+            ligaAltNameTextView = itemView.findViewById(R.id.ligaAltNameTextView);
         }
     }
 
