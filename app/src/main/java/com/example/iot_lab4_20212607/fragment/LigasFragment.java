@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.iot_lab4_20212607.adapter.LigasAdapter;
 import com.example.iot_lab4_20212607.databinding.FragmentLigasBinding;
-import com.example.iot_lab4_20212607.dto.ApiResponse;
+import com.example.iot_lab4_20212607.dto.LigasAll;
 import com.example.iot_lab4_20212607.dto.LigasPorPais;
 import com.example.iot_lab4_20212607.model.Liga;
-import com.example.iot_lab4_20212607.service.ApiService;
+import com.example.iot_lab4_20212607.service.LigasApiService;
 import com.example.iot_lab4_20212607.service.RetrofitClient;
 
 import java.util.List;
@@ -53,10 +53,10 @@ public class LigasFragment extends Fragment {
 
     // Cargar todaslas ligas
     private void loadAllLigas() {
-        ApiService apiService = RetrofitClient.getApiService();
-        apiService.getLigas().enqueue(new Callback<ApiResponse>() {
+        LigasApiService ligasApiService = RetrofitClient.getApiService();
+        ligasApiService.getLigas().enqueue(new Callback<LigasAll>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            public void onResponse(Call<LigasAll> call, Response<LigasAll> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<Liga> ligas = response.body().getLeagues();
                     ligasAdapter.setLigasList(ligas);
@@ -66,7 +66,7 @@ public class LigasFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(Call<LigasAll> call, Throwable t) {
                 Toast.makeText(getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
@@ -74,8 +74,8 @@ public class LigasFragment extends Fragment {
 
     // Cargar ligas por país
     private void buscarLigasPorPais(String pais) {
-        ApiService apiService = RetrofitClient.getApiService();
-        Call<LigasPorPais> call = apiService.getLigasPorPais(pais);
+        LigasApiService ligasApiService = RetrofitClient.getApiService();
+        Call<LigasPorPais> call = ligasApiService.getLigasPorPais(pais);
 
         call.enqueue(new Callback<LigasPorPais>() {
             @Override
