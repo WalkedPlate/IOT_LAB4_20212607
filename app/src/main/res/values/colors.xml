@@ -16,4 +16,21 @@
     <!-- Search EditText specific colors -->
     <color name="edittext_hint">#9E9E9E</color>  <!-- Color gris claro para el hint del EditText -->
 
+    <color name="background_item">#F2F6F8</color>
+
+    <!-- Tonos de Gris -->
+    <color name="gray_light">#BDBDBD</color>
+    <color name="gray_dark">#7A7878</color> <!-- Gris Claro -->
+
+    <!-- Tonos de Teal (Cian Oscuro) -->
+    <color name="teal_700">#00796B</color>
+
+
+    <!-- Colores de Texto -->
+    <color name="text_primary">#212121</color> <!-- Texto Principal -->
+    <color name="text_secondary">#757575</color> <!-- Texto Secundario -->
+
+    <!-- Otros Colores -->
+    <color name="error">#B00020</color> <!-- Color de Error -->
+
 </resources>

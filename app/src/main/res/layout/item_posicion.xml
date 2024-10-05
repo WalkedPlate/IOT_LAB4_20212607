@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@drawable/content_liga_bg"
+    android:elevation="4dp"
+    android:layout_margin="6dp"
+    android:backgroundTint="@color/white"
+    android:clipToPadding="false">
+
+    <!-- Logo del equipo -->
+    <ImageView
+        android:id="@+id/badgeEquipo"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:paddingEnd="12dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleType="centerInside" />
+
+    <!-- Nombre del equipo (resaltado) -->
+    <TextView
+        android:id="@+id/nombreEquipo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nombre del equipo"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintStart_toEndOf="@id/badgeEquipo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rankingEquipo"
+        app:layout_constraintBottom_toTopOf="@id/victoriasEmpatesDerrotas" />
+
+    <!-- Ranking del equipo (resaltado y más grande) -->
+    <TextView
+        android:id="@+id/rankingEquipo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="8dp"
+        android:gravity="center" />
+
+    <!-- Victorias/Empates/Derrotas -->
+    <TextView
+        android:id="@+id/victoriasEmpatesDerrotas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="V: 0 E: 0 D: 0"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@id/badgeEquipo"
+        app:layout_constraintTop_toBottomOf="@id/nombreEquipo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/golesInfo" />
+
+    <!-- Goles anotados/concedidos/diferencia -->
+    <TextView
+        android:id="@+id/golesInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="GA: 0 GC: 0 DG: 0"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/badgeEquipo"
+        app:layout_constraintTop_toBottomOf="@id/victoriasEmpatesDerrotas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="2dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,7 +14,7 @@ import com.example.iot_lab4_20212607.databinding.FragmentLigasBinding;
 import com.example.iot_lab4_20212607.dto.LigasAll;
 import com.example.iot_lab4_20212607.dto.LigasPorPais;
 import com.example.iot_lab4_20212607.model.Liga;
-import com.example.iot_lab4_20212607.service.LigasApiService;
+import com.example.iot_lab4_20212607.service.ApiService;
 import com.example.iot_lab4_20212607.service.RetrofitClient;
 
 import java.util.List;
@@ -53,8 +53,8 @@ public class LigasFragment extends Fragment {
 
     // Cargar todaslas ligas
     private void loadAllLigas() {
-        LigasApiService ligasApiService = RetrofitClient.getApiService();
-        ligasApiService.getLigas().enqueue(new Callback<LigasAll>() {
+        ApiService apiService = RetrofitClient.getApiService();
+        apiService.getLigas().enqueue(new Callback<LigasAll>() {
             @Override
             public void onResponse(Call<LigasAll> call, Response<LigasAll> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -74,8 +74,8 @@ public class LigasFragment extends Fragment {
 
     // Cargar ligas por país
     private void buscarLigasPorPais(String pais) {
-        LigasApiService ligasApiService = RetrofitClient.getApiService();
-        Call<LigasPorPais> call = ligasApiService.getLigasPorPais(pais);
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<LigasPorPais> call = apiService.getLigasPorPais(pais);
 
         call.enqueue(new Callback<LigasPorPais>() {
             @Override
