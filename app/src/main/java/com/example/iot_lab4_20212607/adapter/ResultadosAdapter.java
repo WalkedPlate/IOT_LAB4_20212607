@@ -62,8 +62,22 @@ public class ResultadosAdapter extends RecyclerView.Adapter<ResultadosAdapter.Re
         notifyItemRangeInserted(startIndex, nuevosResultados.size()); // Notificar cambios
     }
 
+    // Método para eliminar un conjunto de últimos resultados
+    public void removeLastResults(int cantidad) {
+        if (!resultados.isEmpty()) {
+            int numElementsToRemove = Math.min(cantidad, resultados.size()); // No eliminar más de los que hay
+            int startIndex = resultados.size() - numElementsToRemove;
+
+            for (int i = 0; i < numElementsToRemove; i++) {
+                resultados.remove(resultados.size() - 1); // Eliminar el último elemento
+            }
+
+            notifyItemRangeRemoved(startIndex, numElementsToRemove); // Notificar al adaptador que un rango fue eliminado
+        }
+    }
+
     public static class ResultadoViewHolder extends RecyclerView.ViewHolder {
-        TextView nombreLiga, ronda , equipoLocal, equipoVisitante, resultado, fecha, espectadores;
+        TextView nombreLiga, ronda, equipoLocal, equipoVisitante, resultado, fecha, espectadores;
         ImageView logoLiga;
 
         public ResultadoViewHolder(@NonNull View itemView) {

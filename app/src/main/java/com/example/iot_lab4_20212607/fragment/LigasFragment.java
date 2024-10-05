@@ -53,10 +53,13 @@ public class LigasFragment extends Fragment {
 
     // Cargar todaslas ligas
     private void loadAllLigas() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+
         ApiService apiService = RetrofitClient.getApiService();
         apiService.getLigas().enqueue(new Callback<LigasAll>() {
             @Override
             public void onResponse(Call<LigasAll> call, Response<LigasAll> response) {
+                binding.progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null) {
                     List<Liga> ligas = response.body().getLeagues();
                     ligasAdapter.setLigasList(ligas);

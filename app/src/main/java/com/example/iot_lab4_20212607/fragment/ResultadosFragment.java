@@ -1,5 +1,11 @@
 package com.example.iot_lab4_20212607.fragment;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,11 +32,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class ResultadosFragment extends Fragment {
+public class ResultadosFragment extends Fragment implements SensorEventListener {
 
     private FragmentResultadosBinding binding;
     private ResultadosAdapter resultadosAdapter;
     private List<ResultadoPartido> listaResultados = new ArrayList<>();
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private boolean isShakeDetected = false;
+    private static final float SHAKE_THRESHOLD = 20.0f; // Umbral de aceleración
+    private List<Integer> historialResultadosAñadidos = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +55,12 @@ public class ResultadosFragment extends Fragment {
 
         // Configurar el botón de búsqueda
         binding.searchButton.setOnClickListener(v -> buscarResultados());
+
+        // Inicializar el SensorManager
+        sensorManager = (SensorManager) requireActivity().getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager != null) {
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
 
         return view;
     }
@@ -62,7 +79,6 @@ public class ResultadosFragment extends Fragment {
         // Log para depuración
         Log.d("API_CALL", "idLiga: " + idLiga + ", ronda: " + ronda + ", temporada: " + temporada);
 
-
         // Llamar a la API para obtener los resultados
         RetrofitClient.getApiService().getResultados(idLiga, ronda, temporada).enqueue(new Callback<ResultadosResponse>() {
             @Override
@@ -71,6 +87,7 @@ public class ResultadosFragment extends Fragment {
                     List<ResultadoPartido> nuevosResultados = response.body().getResultadosPartidos();
                     if (nuevosResultados != null && !nuevosResultados.isEmpty()) {
                         resultadosAdapter.addResultados(nuevosResultados);
+                        historialResultadosAñadidos.add(nuevosResultados.size()); // Añadir la cantidad al historial
                     } else {
                         Toast.makeText(getContext(), "No se encontraron resultados", Toast.LENGTH_SHORT).show();
                     }
@@ -82,11 +99,80 @@ public class ResultadosFragment extends Fragment {
             @Override
             public void onFailure(Call<ResultadosResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-
                 Log.e("API_ERROR", "Error de conexión", t);
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Registrar el listener del acelerómetro
+        if (accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Desregistrar el listener del acelerómetro
+        sensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+
+            // Calcular la aceleración total
+            float acceleration = (float) Math.sqrt(x * x + y * y + z * z);
+
+            // Verificar si la aceleración supera el umbral
+            if (acceleration > SHAKE_THRESHOLD && !isShakeDetected) {
+                isShakeDetected = true; // Evitar múltiples detecciones seguidas
+                mostrarDialogoConfirmacion();
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    private void mostrarDialogoConfirmacion() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Confirmar acción")
+                .setMessage("¿Deseas deshacer la última acción y eliminar los últimos resultados?")
+                .setPositiveButton("Sí", (dialog, which) -> deshacerUltimaAccion())
+                .setNegativeButton("No", (dialog, which) -> {
+                    // Restablecer la detección de agitación
+                    isShakeDetected = false;
+                    dialog.dismiss();
+                })
+                .show();
+    }
+
+    private void deshacerUltimaAccion() {
+        if (!historialResultadosAñadidos.isEmpty()) {
+            // Obtener la cantidad de resultados que se añadió en la última búsqueda
+            int cantidadAEliminar = historialResultadosAñadidos.remove(historialResultadosAñadidos.size() - 1);
+
+            // Eliminar la cantidad de resultados obtenida
+            resultadosAdapter.removeLastResults(cantidadAEliminar);
+
+            Toast.makeText(getContext(), "Últimos resultados eliminados", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "No hay más resultados para eliminar", Toast.LENGTH_SHORT).show();
+        }
+
+        isShakeDetected = false; // Permitir nuevas detecciones
+    }
+
+
+
 
     @Override
     public void onDestroyView() {

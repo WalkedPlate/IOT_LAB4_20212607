@@ -72,7 +72,6 @@ public class PosicionesFragment extends Fragment {
     private void obtenerPosiciones(String idLiga, String temporada) {
         binding.progressBar.setVisibility(View.VISIBLE);
 
-
         ApiService apiService = RetrofitClient.getApiService();
         Call<PosicionesResponse> call = apiService.getPosicionesLiga(idLiga, temporada);
 
