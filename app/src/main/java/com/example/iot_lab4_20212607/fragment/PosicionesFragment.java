@@ -1,66 +1,84 @@
 package com.example.iot_lab4_20212607.fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.iot_lab4_20212607.R;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PosicionesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+//import com.example.iot_lab4_20212607.adapter.PosicionesAdapter;
+import com.example.iot_lab4_20212607.databinding.FragmentPosicionesBinding;
+//import com.example.iot_lab4_20212607.dto.PosicionesResponse;
+//import com.example.iot_lab4_20212607.model.Posicion;
+import com.example.iot_lab4_20212607.service.LigasApiService;
+import com.example.iot_lab4_20212607.service.RetrofitClient;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class PosicionesFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentPosicionesBinding binding;
+    //private PosicionesAdapter posicionesAdapter;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentPosicionesBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
-    public PosicionesFragment() {
-        // Required empty public constructor
+        /*
+
+        // Configurar RecyclerView
+        posicionesAdapter = new PosicionesAdapter(view.getContext());
+        binding.recyclerViewPosiciones.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        binding.recyclerViewPosiciones.setAdapter(posicionesAdapter);
+
+        // Acción del botón buscar
+        binding.searchButton.setOnClickListener(v -> {
+            String idLiga = binding.searchEditTextIdLiga.getText().toString().trim();
+            String temporada = binding.searchEditTextSeason.getText().toString().trim();
+            if (idLiga.isEmpty() || temporada.isEmpty()) {
+                Toast.makeText(getContext(), "Por favor ingresa la liga y la temporada", Toast.LENGTH_SHORT).show();
+            } else {
+                buscarPosiciones(idLiga, temporada);
+            }
+        });
+
+         */
+
+        return view;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PosicionesFragment.
+    /*
+    // Buscar posiciones por liga y temporada
+    private void buscarPosiciones(String idLiga, String temporada) {
+        LigasApiService ligasApiService = RetrofitClient.getApiService();
+        Call<PosicionesResponse> call = ligasApiService.getPosiciones(idLiga, temporada);
+
+        call.enqueue(new Callback<PosicionesResponse>() {
+            @Override
+            public void onResponse(Call<PosicionesResponse> call, Response<PosicionesResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Posicion> posiciones = response.body().getPosiciones();
+                    posicionesAdapter.setPosicionesList(posiciones);
+                    posicionesAdapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(getContext(), "No se encontraron posiciones", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PosicionesResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
      */
-    // TODO: Rename and change types and number of parameters
-    public static PosicionesFragment newInstance(String param1, String param2) {
-        PosicionesFragment fragment = new PosicionesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_posiciones, container, false);
-    }
 }

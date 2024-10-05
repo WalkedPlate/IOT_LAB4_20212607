@@ -1,14 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.PosicionesFragment">
+    tools:context=".fragment.PosicionesFragment"
+    android:background="@color/background_light">
 
-    <!-- TODO: Update blank fragment layout -->
+    <!-- Título en la parte superior -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posiciones de Liga"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center" />
 
-</FrameLayout>
+    <!-- Campo de búsqueda idLiga -->
+    <EditText
+        android:id="@+id/searchEditTextIdLiga"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="idLiga"
+        android:padding="12dp"
+        android:background="@drawable/search_edittext_bg"
+        android:textColorHint="@color/edittext_hint"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/searchEditTextTemporada"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        android:layout_marginTop="16dp" />
+
+    <!-- Campo de búsqueda Temporada -->
+    <EditText
+        android:id="@+id/searchEditTextTemporada"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Temporada"
+        android:padding="12dp"
+        android:background="@drawable/search_edittext_bg"
+        android:textColorHint="@color/edittext_hint"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/searchEditTextIdLiga"
+        app:layout_constraintEnd_toStartOf="@id/searchButton"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        android:layout_marginTop="16dp" />
+
+    <!-- Botón de búsqueda -->
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buscar"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/primary_dark"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        app:layout_constraintStart_toEndOf="@id/searchEditTextTemporada"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- RecyclerView para mostrar las posiciones de liga -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewLigas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/searchEditTextIdLiga"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"
+        android:scrollbars="vertical" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

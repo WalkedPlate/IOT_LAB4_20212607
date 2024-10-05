@@ -5,25 +5,70 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/navigation_ligas">
 
+    <!-- Fragmento Ligas -->
     <fragment
         android:id="@+id/navigation_ligas"
         android:name="com.example.iot_lab4_20212607.fragment.LigasFragment"
         android:label="Ligas"
-        tools:layout="@layout/fragment_ligas" />
+        tools:layout="@layout/fragment_ligas">
 
+        <!-- Acción para navegar a Posiciones -->
+        <action
+            android:id="@+id/action_ligas_to_posiciones"
+            app:destination="@id/navigation_posiciones"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
 
+        <!-- Acción para navegar a Resultados -->
+        <action
+            android:id="@+id/action_ligas_to_resultados"
+            app:destination="@id/navigation_resultados"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 
+    <!-- Fragmento Posiciones -->
     <fragment
         android:id="@+id/navigation_posiciones"
         android:name="com.example.iot_lab4_20212607.fragment.PosicionesFragment"
         android:label="Posiciones"
-        tools:layout="@layout/fragment_posiciones" />
+        tools:layout="@layout/fragment_posiciones">
 
+        <!-- Acción para navegar a Ligas -->
+        <action
+            android:id="@+id/action_posiciones_to_ligas"
+            app:destination="@id/navigation_ligas"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+        <!-- Acción para navegar a Resultados -->
+        <action
+            android:id="@+id/action_posiciones_to_resultados"
+            app:destination="@id/navigation_resultados"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- Fragmento Resultados -->
     <fragment
         android:id="@+id/navigation_resultados"
         android:name="com.example.iot_lab4_20212607.fragment.ResultadosFragment"
         android:label="Resultados"
-        tools:layout="@layout/fragment_resultados" />
+        tools:layout="@layout/fragment_resultados">
 
+        <!-- Acción para navegar a Ligas -->
+        <action
+            android:id="@+id/action_resultados_to_ligas"
+            app:destination="@id/navigation_ligas"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+        <!-- Acción para navegar a Posiciones -->
+        <action
+            android:id="@+id/action_resultados_to_posiciones"
+            app:destination="@id/navigation_posiciones"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>
